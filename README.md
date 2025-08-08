@@ -1,4 +1,15 @@
 # Wordle-Game
+================
+### Game Description
+Wordle is a word-guessing game where the player has to guess a 5-letter word
+in 6 attempts or less. After each guess, the game provides feedback in the form of colored
+tiles indicating how close the guess was to the target word.
+### Game Rules
+1. The game starts with a blank slate, and the player has 6 attempts to guess th
+e word.
+2. After each guess, the game provides feedback in the form of colored tiles.
+3. The colored tiles indicate how close the guess was to the target word.
+4. The game ends when the player guesses the word correctly or runs out of attempts.
 ## HOW TO USE WORDLE GAME
 1. Run the game by executing the script.
 - go in the command line and type: python (directory of gui file for example: C:\Users\rawan\OneDrive - INTRAST\Desktop\Wordle-Game)
