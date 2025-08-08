@@ -1,5 +1,5 @@
 #  get the data filterd from Api 
-from utils.THE_FETCHING import get_Words
+from wordle.game.utils.THE_FETCHING import get_Words
 import random
 
 # now to seletct thr word of test 
