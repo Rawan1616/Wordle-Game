@@ -10,7 +10,7 @@ def select_word():
 
 # //////
 Target = select_word()
-print("//////the target is ://////" + select_word())
+print("//////the target is ://////" + Target)
     
 # /////////////////////////////
 # compare the target word with the user input(guess)
@@ -38,7 +38,7 @@ def play_game ():
     filterd_data = get_Words()
     no_of_Attempts = 6 
     # to keeep track  , i will make it like a list od tuples 
-    # each tuple will have two values the guess and the feedback 
+    # each tuple will have two values the guess and the result of thid guess
     history = []
     while no_of_Attempts > 0:
                 # i have added strip in debugging to remove any whitespaces 
@@ -51,17 +51,19 @@ def play_game ():
                 continue
             TEST = compare_word(guess, Target)
             history.append((guess ,TEST))
-            
-            print("\nYour guesses:")
+            no_of_Attempts = no_of_Attempts -1
+            print("Your guesses:")
             for g, f in history:
         # /////////
                 print(f"{g} → {f}")
+                
                 if guess == Target:
                   print(" BRAVO ...,,,,,,,,,, You guessed it")
                   break
+                 
+
                 if no_of_Attempts == 0  and  guess != Target :
-                 print("Game Over ...., you are loser  ,....  The word was " + Target )
-                no_of_Attempts = no_of_Attempts -1 
+                  print("Game Over ...., you are loser  ,....  The word was " + Target )
              
             
  # print the result ti the user , (the test and guess word )
