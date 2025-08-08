@@ -20,16 +20,20 @@ def compare_word(user_input, target_word):
     for i in range(5):
         if (user_input[i] == target_word[i]):
             # return "Green"
-            total.append("Green")
+            total.append("🟩") 
+            # total.append("Green")
         #   right letter in right position 
         elif (user_input[i] in target_word):
             #   right letter in wrong position
             # return  "orange "
-            total.append("orange")
+            total.append("🟧") 
+            # total.append("Orange")
         else :
         #   wrong letter
             # return "red"
-            total.append("red")
+
+            total.append("⬜")
+            # total.append("red")
             
     return total 
             

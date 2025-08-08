@@ -1,38 +1,37 @@
-# import my functions and GUI library
+
+
+# for emojis as same as thr trial file style 
+from PIL import Image, ImageDraw, ImageFont, ImageTk
+import tkinter as tk
 from wordle.game.logic import select_word, compare_word
 from wordle.game.utils.THE_FETCHING import get_Words
 
-import tkinter as tk
+# Function to create emoji image
+def emoji_img(size, text):
+    font = ImageFont.truetype("seguiemj.ttf", size=int(round(size*72/96, 0))) 
+    im = Image.new("RGBA", (size, size), (255, 255, 255, 0))
+    draw = ImageDraw.Draw(im)
+    draw.text((size/2, size/2), text, embedded_color=True, font=font, anchor="mm")
+    return ImageTk.PhotoImage(im)
 
-#  get thr true word
 Target = select_word()
-# the tuple list 
 history = []
-attempts = 6 
+attempts = 6
 
-# create my program canvas by root 
 root = tk.Tk()
-#  title of my program
 root.title("WORDLE GAME ")
-#  size of my program
 root.geometry("500x500")
 root.configure(bg="#f0f0f0")
 
-# create a label for input field 
 tk.Label(root, text="Enter a 5 letter word", font=("Arial", 14), bg="#f0f0f0", fg="#333").pack(pady=10)
-
-# pack the user input and make it well oriented and centered 
 entry = tk.Entry(root, font=("Arial", 12), justify="center")
 entry.pack(pady=5)
-
-# test
 feedback = tk.Label(root, text="", fg="blue", font=("Arial", 12), bg="#f0f0f0")
 feedback.pack(pady=5)
 
-history_box = tk.Text(root, height=10, width=40, font=("Courier", 10), bg="#fff", fg="#333")
-history_box.pack(pady=10)
+history_frame = tk.Frame(root, bg="#f0f0f0")
+history_frame.pack(pady=10)
 
-# the submit 
 def submit():
     global attempts
     guess = entry.get().lower()
@@ -45,24 +44,29 @@ def submit():
 
     result = compare_word(guess, Target)
     history.append((guess, result))
-    colored_result = get_colored_result(result)
-    history_box.insert(tk.END, f"{guess.upper()} → {colored_result}\n")
+
+    row_frame = tk.Frame(history_frame, bg="#f0f0f0")
+    tk.Label(row_frame, text=guess.upper(), font=("Arial", 12), bg="#f0f0f0").pack(side="left", padx=5)
+    for symbol in result:
+        img = emoji_img(30, symbol)
+        lbl = tk.Label(row_frame, image=img, bg="#f0f0f0")
+        lbl.image = img  
+        lbl.pack(side="left", padx=2)
+        row_frame.pack(anchor="w")
 
     if guess == Target:
-        feedback.config(text="BRAVOO \n You win ")
+        feedback.config(text="BRAVOO \nYou win")
         entry.config(state="disabled")
         submit_button.config(state="disabled")
     else:
-        attempts -= 1 
+        attempts -= 1
         if attempts == 0:
-            feedback.config(text=f"Game Over , You are LOSER \nThe word was: {Target.upper()}")
+            feedback.config(text=f"Game Over \n , you are LOSER , \n  The word was: {Target.upper()}")
             entry.config(state="disabled")
             submit_button.config(state="disabled")
         else:
             feedback.config(text=f"Remaining attempts: {attempts}")
-
-# add a restaet button to can guess another word without close 
-# restart game
+# add restart button to make another guess in same game 
 def restart():
     global Target, history, attempts
     Target = select_word()
@@ -72,37 +76,14 @@ def restart():
     submit_button.config(state="normal")
     entry.delete(0, tk.END)
     feedback.config(text="")
-    history_box.delete("1.0", tk.END)
-
-# make a button for submit 
-submit_button = tk.Button(root, text="Submit",
-                          command=submit,
-                          bg="#4CAF50", 
-                          fg="white",
-                          font=("Arial", 12))
+    for widget in history_frame.winfo_children():
+     widget.destroy()
+# /////////////////////////////////////////////////////////////////
+#///////////////////////// buttin styles ////////////////////////////
+submit_button = tk.Button(root, text="Submit", command=submit, bg="#4CAF50", fg="white", font=("Arial", 12))
 submit_button.pack(pady=5)
 
-# make a button for restart
-restart_button = tk.Button(root, text="Restart",
-                           command=restart,
-                           bg="#2196F3",
-                           fg="white",
-                           font=("Arial", 12))
-
+restart_button = tk.Button(root, text="Restart", command=restart, bg="#2196F3", fg="white", font=("Arial", 12))
 restart_button.pack(pady=5)
-
-# add function to show colored squares instead od text 
-
-
-def get_colored_result(result):
-    colored = []
-    for color in result:
-        if color == "Green":
-            colored.append("🟩")
-        elif color == "Orange":
-            colored.append("🟨")
-        else:
-            colored.append("⬜")
-    return " ".join(colored)
 
 root.mainloop()
