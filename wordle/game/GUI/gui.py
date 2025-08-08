@@ -45,7 +45,8 @@ def submit():
 
     result = compare_word(guess, Target)
     history.append((guess, result))
-    history_box.insert(tk.END, f"{guess.upper()} → {result}\n")
+    colored_result = get_colored_result(result)
+    history_box.insert(tk.END, f"{guess.upper()} → {colored_result}\n")
 
     if guess == Target:
         feedback.config(text="BRAVOO \n You win ")
@@ -90,6 +91,18 @@ restart_button = tk.Button(root, text="Restart",
 
 restart_button.pack(pady=5)
 
-# 
+# add function to show colored squares instead od text 
+
+
+def get_colored_result(result):
+    colored = []
+    for color in result:
+        if color == "Green":
+            colored.append("🟩")
+        elif color == "Orange":
+            colored.append("🟨")
+        else:
+            colored.append("⬜")
+    return " ".join(colored)
 
 root.mainloop()
