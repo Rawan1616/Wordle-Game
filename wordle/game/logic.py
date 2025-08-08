@@ -9,58 +9,66 @@ def select_word():
     return TEST_WORD
 
 # //////
-mY_Target = select_word()
-print(mY_Target)
+Target = select_word()
+print("//////the target is ://////" + select_word())
     
 # /////////////////////////////
 # compare the target word with the user input(guess)
 
-def compare_word(user_input, target_word):  
-  for i in range(5):
-        if (guess[i] == Target[i]):
+def compare_word(user_input, target_word): 
+    total = []
+    for i in range(5):
+        if (user_input[i] == target_word[i]):
+            # return "Green"
+            total.append("Green")
         #   right letter in right position 
-              return "Green"
-        elif (guess[i] in mY_Target):
+        elif (user_input[i] in target_word):
             #   right letter in wrong position
-            return  "orange "
+            # return  "orange "
+            total.append("orange")
         else :
         #   wrong letter
-            return "red"
+            # return "red"
+            total.append("red")
+            
+    return total 
             
             
 def play_game ():
-    Target = select_word()
     filterd_data = get_Words()
     no_of_Attempts = 6 
     # to keeep track  , i will make it like a list od tuples 
     # each tuple will have two values the guess and the feedback 
     history = []
     while no_of_Attempts > 0:
-            guess = input("Guess the word : ").lower()
+                # i have added strip in debugging to remove any whitespaces 
+            guess = input("Guess the word : ").strip().lower()
             if len(guess) != 5 :
                 print("Please enter word of 5 leters ")
                 continue
             elif guess not in filterd_data :
-                print(" invalid word  ")
+                print(" invalid word ")
                 continue
             TEST = compare_word(guess, Target)
             history.append((guess ,TEST))
+            
+            print("\nYour guesses:")
+            for g, f in history:
+        # /////////
+                print(f"{g} → {f}")
+                if guess == Target:
+                  print(" BRAVO ...,,,,,,,,,, You guessed it")
+                  break
+                if no_of_Attempts == 0  and  guess != Target :
+                 print("Game Over ...., you are loser  ,....  The word was " + Target )
+                no_of_Attempts = no_of_Attempts -1 
+             
             
  # print the result ti the user , (the test and guess word )
 # dispaly all his guesses 
 
         # /////
-    print("\nYour guesses:")
-    for g, f in history:
-        print(f"{g} → {f}")
-
-        if guess == target_word:
-          print(" BRAVO ... You guessed it")
-          break
-
-        no_of_Attempts = no_of_Attempts -1 
-        if no_of_Attempts == 0  and  guess != Target :
-          print("Game Over , you are loser  ,  The word was " + Target )
+       
             
     
                 
